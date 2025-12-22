@@ -18,10 +18,10 @@ def change_rotation()
       lo = [previous_value, start].min
       hi = [previous_value, start].max
 
-      interior = (hi - 1).div(100) - lo.div(100)
+      interior = ((hi - 1) / 100) - (lo / 100)
       endpoint = (start != previous_value && start % 100 == 0) ? 1 : 0
-
       count += interior + endpoint
+
     end
   end
   return count
