@@ -1,10 +1,11 @@
+require "pry"
 # Day 3 part 1
-def max_battery_output()
+def max_battery_output_for_two
   total_output_jolt = 0
   lines_array = File.readlines("puzzle_input_three.txt")
   for bank in lines_array
     # Get the highest numbers by ordering it in a set
-    ordered_bank = bank.chars.sort.reverse
+    ordered_bank = bank.chars.sort.reverse.uniq
     # Find the position of the largest number
     index_of_largest_num = bank.index(ordered_bank[0])
 
@@ -22,3 +23,28 @@ def max_battery_output()
   return total_output_jolt
 end
 
+# Day 3 part 2
+def max_battery_output_for_twelve
+  total_output_jolt = 0
+  File.readlines("puzzle_input_three.txt").each do |line|
+    digits = line.strip.chars
+    keep = 12
+    stack = []
+    to_remove = digits.size - keep
+
+    digits.each do |digit|
+      while to_remove > 0 && !stack.empty? && stack[-1] < digit
+        stack.pop
+        to_remove -= 1
+      end
+      stack << digit
+    end
+
+    # Only keep the first 12 digits in case we didn't remove enough
+    result = stack[0, keep].join
+    total_output_jolt += result.to_i
+  end
+  total_output_jolt
+end
+
+puts max_battery_output_for_twelve
